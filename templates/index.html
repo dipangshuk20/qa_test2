@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+  <script>
+    function displayHTML(html) {
+      document.getElementById("htmlContainer").innerHTML = html;
+    }
+   function buttonColour(){
+    document.getElementById("toggle").style.backgroundColor='#911';
+   }
+   
+
+   $(document).ready(function() {
+    $("#colorButton").click(function() {
+      var currentColor = $(this).css("background-color");
+      var newColor = currentColor === "rgb(255, 0, 0)" ? "rgb(0, 255, 0)" : "rgb(255, 0, 0)";
+      $(this).css("background-color", newColor);
+      $.ajax({
+        type: "GET",
+        url: "/update_color",
+        data: { newColor: newColor },
+        success: function(response) {
+          console.log("Color updated successfully");
+        },
+        error: function(error) {
+          console.error("Error updating color:", error);
+        }
+      });
+    });
+  });
+
+  </script>
+</head>
+<style>
+  .list-item {
+    list-style: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .list-item:hover {
+    background-color: #f2f2f2;
+  }
+</style>
+
+<body class="px-5 py-3" style="font-family: Verdana;">
+  {% block content %}
+  {% endblock %}
+  <div>
+    
+    {% if dboption>2 %}
+    Change db now!(U can goto db2 from here)
+    <form method="post">
+      <input type="radio" id="db1" name="db" value="db1">
+      <label for="db1">db1-Old database(50 files)</label><br>
+      <input type="radio" id="db2" name="db" value="db2">
+      <label for="db2">db2- New database(200 files added) </label><br>
+      <input type="radio" id="db3" name="db" value="db3">
+      <label for="db3">db3-2019 Data </label><br>
+      <button type="submit">Submit</button>
+    </form>
+    {% else %}
+    Click here  to go to /serve-> <a href="{{url_for('serve_html')}}">Click Now!</a>
+    {% endif %}
+  </div>
+  
+  <div>
+
+    <h2 class="mb-5">List of files</h2>
+  
+{% for i in ids %}
+    <ul class="m-0 list-item">
+      <li>
+        <div class="d-flex flex-row align-items-center">
+          <div class="col-md-2 p-0">
+            <p class="m-0"><b>{{i}}</b></p>
+          </div>
+          <div class="col-md-2 p-2">
+            <!-- <p class="m-0"><b>{{ids[i]['name']}}</b></p> -->
+          </div>
+          <div class="col-md-3">
+            <b>Link:</b> <a href={{ ids[i]['link'] }}>Finish Quality Checking now!!</a>
+          </div>
+          <div class="col-md-2 ">
+            <!-- {% if ids[i]['status']=='success' %} -->
+            Status: <button type="button" id="change" class="btn btn-{{ ids[i]['status'] }} ms-3">Done</button>
+
+            <!-- {% else %} -->
+            <!-- {{ ids[i]['status'] }} -->
+            Status:<button type="button" id="change" class="btn btn-danger ms-3 ">Not done</button>
+            <!-- {% endif %} -->
+            
+<!--            
+            {% if donedata_atrr ==null %}
+            Status:<button type="button" id="change" class="btn btn-success ms-3 {{ids[i]['status']}};color:red">{{ids[i]['status']}}</button>
+            {% else %}
+            Status:<button type="button" id="change" class="btn btn-success ms-3 {{ids[i]['status']}};color:green">{{ids[i]['status']}}</button>
+            {% endif %} -->
+
+          </div>
+          <div class="col-md-2 " id="checkbox-container">
+           
+          </div>
+        
+        
+      </div>
+      </li>
+    </ul>
+  </div>
+
+  <br>
+ 
+  {% endfor %}
+</body>
+
+</html>

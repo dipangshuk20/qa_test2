@@ -1,0 +1,32 @@
+
+import json
+g=open("new_batch_letera()next_batch_5-2.json","r")
+data_db2=json.loads(g.read())
+g.close()
+ids = {obj["iden"] for obj in data_db2}
+identifier={}
+
+for each in ids:
+    identifier[each]={}
+    identifier[each]['link']="url_for('page_db3',id=each)"
+    identifier[each]['status']=''
+
+for obje in data_db2:
+    if obje['iden']==each:
+        """name=obje['name']
+        identifier[each]['name']=name"""
+        y = len(ids)
+        # print(ids)
+        # print("jnc")
+# print(y)
+for each in ids:
+    identifier[each]={}
+    identifier[each]['link']="url_for('page_db3',id=each)"
+    identifier[each]['status']=''
+    for i in range(0,10):
+        if obje['iden']==each:
+            print("uhcihcasuih")
+            name=obje['name']
+            identifier[each]['name']=name   
+            # print("name",name,"s",identifier[each]['name'])
+print(identifier)

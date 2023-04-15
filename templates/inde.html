@@ -1,0 +1,98 @@
+
+<!-- Was built purely for testing.. NO REAL USECASE-->
+
+<html>
+    <head>
+        <script>
+            function displayHTML(html) {
+              document.getElementById("htmlContainer").innerHTML = html;
+            }
+          </script>
+          <style>
+            #editor {
+              
+              border: 1px solid #ccc;
+              padding: 10px;
+            }
+            #download-button {
+                padding: 10px 20px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 10px;
+              }
+              #save-button {
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-left: 10px;
+              }
+          </style>
+    </head>
+<body>
+    <!-- make it a nav bar @Rajdeep-->
+    <h2>You are viewing Part-{{current_page}} of the html </h2>
+    <h3><b> Note: Inspect elements, update the html, and then right click and download. </b></h3>
+    <h5>P.S : Common elements to be added: <em>font-weight: bold;</em> and text props like:<em> text-align: left;</em></h5>
+    
+    <!-- This is the body container-->
+    <div  id="editor" contenteditable="true">
+        <script>
+            async function downloadHTML() {
+                const content = document.getElementById("editor").innerHTML;
+                await new Promise((resolve) => setTimeout(resolve, 3000));
+                const blob = new Blob([content], { type: "text/html" });
+                const a = document.createElement("a");
+                a.href = URL.createObjectURL(blob);
+                a.download = "content.html";
+                a.click();
+              }
+            document.getElementById("editor").innerHTML = `
+            <div id="htmlContainer">
+                {{ pages[current_page]|safe }}
+                
+              </div>
+              `
+              
+             
+            
+    function saveHTML() {
+        const editor = document.getElementById("editor");
+        editor.contentEditable = "false";
+        editor.style.backgroundColor = "#eee";
+        alert("Content saved!");
+        const blob = new Blob([editor.innerHTML], { type: "text/html" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "content.html";
+        a.click();
+      }
+  
+            
+          
+      
+              document.getElementById("save-button").addEventListener("click", saveHTML);
+            </script>
+
+          
+    
+    </div>
+    
+    <!-- Button to save-->
+    <button id="save-button" onclick=saveHTML()>Save HTML and download</button>(Dont forget to rename_for_proper retention.)
+    <!--Button end-->
+    <form method="post">
+        <button type="submit" class="btn">Next</button>
+    </form>
+    <!-- @Rajdeep Add the update status button here...-->
+    
+<div>
+    <h3 align="center">Update your working status by clicking here:-><button type="submit" class="btn btn-warning" onclick="update_status()">Update Status</button></h3>
+</div>
+</body>
+</html>
